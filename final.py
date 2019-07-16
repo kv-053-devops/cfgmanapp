@@ -36,29 +36,26 @@ class Data(db.Model):
     interval = db.Column(db.Integer)
     range = db.Column(db.Integer)
     name = db.Column(db.String(255))
-    sumbol = db.Column(db.String(100))
-    # record_to_insert = ('range', 1)
-    # record_to_insert = ('interval', 2)
-    # record_to_insert = ('name', "Microsoft,Amazon,Apple,Alphabet,Facebook")
-    # record_to_insert = ('sumbol', "MSFT,AMZN,AAPL,GOOGL,FB")
+    symbol = db.Column(db.String(100))
 
 
 # Data Schema
 class DataSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'interval', 'range', 'name', 'sumbol')
+        fields = ('id', 'interval', 'range', 'name', 'symbol')
 
 products_schema = DataSchema(many=True)
 
 # Create up
 @app.route('/save', methods=['PUT'])
 def up_data():
-    # try:
-    if request.method == 'PUT':
-        loaded = request.get_json()
+    try:
+        if request.method == 'PUT':
+            loaded = request.get_json()
         # loaded = json.loads(file)
-        sumbol = loaded['symbol']
-        d[0].sumbol = sumbol
+            symbol = loaded['symbol']
+            d = Data.query.all()
+            d[0].symbol = symbol
 
         #range = loaded['range']
         #interval = loaded['interval']
@@ -66,10 +63,10 @@ def up_data():
         #d[0].interval = interval
         #d[0].range = range
 
-        db.session.commit()
+            db.session.commit()
 
-    # except:
-    #     print("This didn't work.")
+    except:
+         print("Problem with method 'PUT'")
 
     return make_response("", 200)
 
