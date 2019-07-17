@@ -119,7 +119,9 @@ def request_take():
 
 
 if __name__ == '__main__':
+    d = Data( interval =2, range=2, name="Microsoft,Amazon,Apple,Alphabet,Facebook", symbol="MSFT,AMZN,AAPL,GOOGL,FB")
     db.create_all()
+    db.session.add(d)
     db.session.commit()
 
     app.debug = True
