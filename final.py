@@ -1,6 +1,13 @@
 from flask import Flask, request, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+
+import os
+import json
+from google.cloud import storage
+from google.oauth2 import service_account
+
+
 import json
 import os
 
@@ -33,7 +40,7 @@ ma = Marshmallow(app)
 
 class Data(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    interval = db.Column(db.Integer)
+    interval = db.Column(db.Integer) #2
     range = db.Column(db.Integer)
     name = db.Column(db.String(255))
     symbol = db.Column(db.String(100))
@@ -78,7 +85,42 @@ def get_all():
     result = products_schema.dump(all)
     return jsonify(result.data)
 
+
+
+####################################
+#taking JSON with templates from GCS
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'absolute-router-242207-e0142bb87119.json'
+storage_client = storage.Client()
+STORAGE_BUCKET = '237659812347654kjkjhjhgj68665'
+FILE_REAL_TIME = 'real_time.json'
+FILE_INTRADAY = 'intraday.json'
+
+########################
+#Making endpoints of API
+@app.route('/conf/query', methods=['GET'])
+def request_take():
+    if request.method == 'GET':
+        query_type = request.args.get('query_type')
+        if query_type == "realtime":
+            client = storage.Client()
+            bucket = client.get_bucket(STORAGE_BUCKET)
+            blob = bucket.get_blob(FILE_REAL_TIME)
+            json_data = blob.download_as_string()
+            return json.loads(json_data.decode('UTF-8'))
+
+        elif query_type == "intraday":
+            client = storage.Client()
+            bucket = client.get_bucket(STORAGE_BUCKET)
+            blob = bucket.get_blob(FILE_INTRADAY)
+            json_data = blob.download_as_string()
+            return json.loads(json_data.decode('UTF-8'))
+    else:
+        return "UNKNOWN QUERY TYPE"
+
+
 if __name__ == '__main__':
     db.create_all()
+    db.session.commit()
+
     app.debug = True
-    app.run()
+    app.run(port =5004)
