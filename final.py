@@ -89,7 +89,7 @@ def get_all():
 
 ####################################
 #taking JSON with templates from GCS
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'absolute-router-242207-e0142bb87119.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'gcs.json'
 storage_client = storage.Client()
 STORAGE_BUCKET = '237659812347654kjkjhjhgj68665'
 FILE_REAL_TIME = 'real_time.json'
