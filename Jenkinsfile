@@ -1,20 +1,21 @@
 pipeline {
 
   environment {
-    PROJECT = "absolute-router-242207"
+    PROJECT = "demo2-248908"
     APP_NAME = "cfgmanapp"
-    STORAGE_CREDS = "${PROJECT}"
-    FE_SVC_NAME = "${APP_NAME}-frontend"
+    FE_SVC_NAME = "${APP_NAME}-backend"
     CLUSTER = "demo2-gke-cluster"
     CLUSTER_ZONE = "europe-west3-a"
-    IMAGE_TAG = "eu.gcr.io/${PROJECT}/${APP_NAME}:${BUILD_NUMBER}"
+    IMAGE_TAG = "eu.gcr.io/${PROJECT}/${APP_NAME}:${env.BUILD_NUMBER}"
     JENKINS_CRED = "${PROJECT}"
+    BUILD_HOME='/var/lib/jenkins/workspace'
     APP_REPO="https://github.com/kv-053-devops/cfgmanapp.git"
-    NAMESPACE="dev"
   }
 
  agent {
     kubernetes {
+    //   label 'ConfigManager'
+    //   defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
 kind: Pod
@@ -28,17 +29,9 @@ spec:
   - name: dockersock
     hostPath:
       path: /var/run/docker.sock
-  - name: jenkins-gcr-sa-creds
-    secret:
-      secretName: jenkins-gcr-json
   containers:
   - name: git
     image: gcr.io/cloud-builders/git
-    command:
-    - cat
-    tty: true
-  - name: python
-    image: gcr.io/cloud-marketplace/google/python
     command:
     - cat
     tty: true
@@ -50,9 +43,6 @@ spec:
     volumeMounts:
     - name: dockersock
       mountPath: /var/run/docker.sock
-    - name: jenkins-gcr-sa-creds
-      mountPath: /tmp/gcr/
-      readOnly: true
   - name: kubectl
     image: gcr.io/cloud-builders/kubectl
     command:
@@ -67,15 +57,6 @@ spec:
             git branch: 'master', url: "${APP_REPO}"
         }
     }
-    stage('Code test') {
-        steps {
-        container('python'){
-            sh "pip3 install -r requirements.txt";
-            sh "python3 unit_test.py";
-          }
-        }
-    }
-
     stage('Build and push container') {
       steps {
         container('docker') {
@@ -88,21 +69,18 @@ spec:
         stage('Push container') {
       steps {
         container('docker') {
-          sh "cat /tmp/gcr/jenkins-gcr.json | docker login -u _json_key --password-stdin https://eu.gcr.io";
-          sh "docker push ${IMAGE_TAG}";
-			// script {
-      //       docker.withRegistry("https://eu.gcr.io", "gcr:${STORAGE_CREDS}") {
-      //       sh "docker push ${IMAGE_TAG}"
-			//      }
-      //   }
+			script {
+            docker.withRegistry("https://eu.gcr.io", "gcr:cfgmanapp") {
+            sh "docker push ${IMAGE_TAG}"
+			}
+        }
     }}}
         stage('Deploy') {
       steps {
         container('kubectl') {
-         sh "kubectl get deployments --namespace=${NAMESPACE} | grep ${APP_NAME} &&  kubectl patch deployment ${APP_NAME} --namespace=${NAMESPACE} || kubectl create deployment ${APP_NAME} --image=${IMAGE_TAG} --namespace=${NAMESPACE}"
-         sh "";
-         //sh "kubectl get pods";
-         //sh "kubectl expose deployment hello-web --type=LoadBalancer --port 81 --target-port 8081";
+         sh "kubectl create deployment ConfigManager --image=${IMAGE_TAG}";
+         sh "kubectl get pods";
+         sh "kubectl expose deployment ConfigManager --type=LoadBalancer --port 80 --target-port 5004";
         }
     } 
 }
