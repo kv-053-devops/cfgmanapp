@@ -1,24 +1,24 @@
-from flask import Flask, request, jsonify, make_response
+import sys
+from flask import Flask, request, jsonify, make_response, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-
 import os
-import json
 from google.cloud import storage
-from google.oauth2 import service_account
-
-
 import json
-import os
+
 
 # Init app
 app = Flask(__name__)
 
+if len(sys.argv) != 1 :
+    host_db = sys.argv[1]
+else:
+    host_db = 'localhost'
 POSTGRES = {
     'user': 'postgres',
     'pw': 'postgres',
     'db': 'name',
-    'host': 'localhost',
+    'host': host_db,
     'port': '5432',
 }
 
@@ -26,13 +26,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://name:qwerty@localhost:5432/postgres'
-
-
-#basedir = os.path.abspath(os.path.dirname(__file__))
-# Database
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'db.sqlite')
-#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Init db
 db = SQLAlchemy(app)
 # Init ma
@@ -40,7 +33,7 @@ ma = Marshmallow(app)
 
 class Data(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    interval = db.Column(db.Integer) #2
+    interval = db.Column(db.Integer)
     range = db.Column(db.Integer)
     name = db.Column(db.String(255))
     symbol = db.Column(db.String(100))
@@ -59,17 +52,9 @@ def up_data():
     try:
         if request.method == 'PUT':
             loaded = request.get_json()
-        # loaded = json.loads(file)
             symbol = loaded['symbol']
             d = Data.query.all()
             d[0].symbol = symbol
-
-        #range = loaded['range']
-        #interval = loaded['interval']
-        #d = Data.query.all()
-        #d[0].interval = interval
-        #d[0].range = range
-
             db.session.commit()
 
     except:
@@ -89,11 +74,10 @@ def get_all():
 
 ####################################
 #taking JSON with templates from GCS
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'gcs.json'
-storage_client = storage.Client()
-STORAGE_BUCKET = '237659812347654kjkjhjhgj68665'
+
 FILE_REAL_TIME = 'real_time.json'
 FILE_INTRADAY = 'intraday.json'
+
 
 ########################
 #Making endpoints of API
@@ -102,18 +86,17 @@ def request_take():
     if request.method == 'GET':
         query_type = request.args.get('query_type')
         if query_type == "realtime":
-            client = storage.Client()
-            bucket = client.get_bucket(STORAGE_BUCKET)
-            blob = bucket.get_blob(FILE_REAL_TIME)
-            json_data = blob.download_as_string()
-            return json.loads(json_data.decode('UTF-8'))
+            results = {"remote_api_url" : "https://api.worldtradingdata.com",
+                        "query_template" : "/api/v1/stock?",
+                        "remote_api_token" : "Ok83lRmuDMCP3LhCtUOdMaA5K6eRF3BAdCYWrg4kEva8Lh0GkdwEAOcQqenJ"}
+
+            return jsonify(results)
 
         elif query_type == "intraday":
-            client = storage.Client()
-            bucket = client.get_bucket(STORAGE_BUCKET)
-            blob = bucket.get_blob(FILE_INTRADAY)
-            json_data = blob.download_as_string()
-            return json.loads(json_data.decode('UTF-8'))
+            results = {"remote_api_url" : "https://intraday.worldtradingdata.com",
+                        "query_template" : "/api/v1/intraday?",
+                        "remote_api_token" : "Ok83lRmuDMCP3LhCtUOdMaA5K6eRF3BAdCYWrg4kEva8Lh0GkdwEAOcQqenJ"}
+            return jsonify(results)
     else:
         return "UNKNOWN QUERY TYPE"
 
@@ -124,5 +107,5 @@ if __name__ == '__main__':
     db.session.add(d)
     db.session.commit()
 
-#    app.debug = True
-    app.run(port =5004)
+    app.debug = True
+    app.run(host='0.0.0.0', port =5004)
