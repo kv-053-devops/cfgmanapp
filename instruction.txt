@@ -7,9 +7,7 @@ local   all             all                                     md5
 host    all             all             127.0.0.1/32            md5
 host    all             all             ::1/128                 md5
 ------------
-systemctl start postgresql
-systemctl enable postgresql
-sudo su postgres
+su postgres
 psql
 CREATE DATABASE name;
 sudo service postgresql restart
