@@ -1,1 +1,39 @@
-
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cfgmanapp
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cfgmanapp
+  template:
+    metadata:
+      labels:
+        app: cfgmanapp
+    spec:
+      hostname: cfgmanapp
+      containers:
+      - name: cfgmanapp
+        image: eu.gcr.io/PROJECTID/cfgmanapp:CONTAINERTAG
+        ports:
+        - containerPort: 5004
+        args: ['0.0.0.0', '5004']
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cfgmanapp
+  labels:
+    app: cfgmanapp
+  namespace: dev
+spec:
+  ports:
+  - port: 5004
+    protocol: TCP
+  selector:
+    app: cfgmanapp
+---
