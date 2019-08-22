@@ -1,7 +1,7 @@
 pipeline {
 
   environment {
-    PROJECT = "demo2-248908"
+    PROJECT = "absolute-router-242207"
     APP_NAME = "cfgmanapp"
     STORAGE_CREDS = "${PROJECT}"
     FE_SVC_NAME = "${APP_NAME}-frontend"
