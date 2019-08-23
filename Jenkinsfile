@@ -78,9 +78,12 @@ spec:
         stage('Deploy') {
       steps {
         container('kubectl') {
-         sh "kubectl create deployment ConfigManager --image=${IMAGE_TAG}";
-         sh "kubectl get pods";
-         sh "kubectl expose deployment ConfigManager --type=LoadBalancer --port 80 --target-port 5004";
+	 sh """sed -i "s/CONTAINERTAG/${GIT_COMMIT}/g" deployment_dev """
+         sh """sed -i "s/PROJECTID/${PROJECT}/g" deployment_dev """
+         sh "kubectl apply -f deployment_dev"
+       //  sh "kubectl create deployment ConfigManager --image=${IMAGE_TAG}";
+        // sh "kubectl get pods";
+        // sh "kubectl expose deployment ConfigManager --type=LoadBalancer --port 80 --target-port 5004";
         }
     } 
 }
