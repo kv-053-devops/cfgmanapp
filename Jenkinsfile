@@ -3,7 +3,7 @@ pipeline {
   environment {
     PROJECT = "demo2-248908"
     APP_NAME = "cfgmanapp"
-    IMAGE_TAG = "eu.gcr.io/${PROJECT}/${APP_NAME}:${env.BUILD_NUMBER}"
+    IMAGE_TAG = "eu.gcr.io/${PROJECT}/${APP_NAME}:${GIT_COMMIT}"
     JENKINS_CRED = "${PROJECT}"
     BUILD_HOME='/var/lib/jenkins/workspace'
     APP_REPO="https://github.com/kv-053-devops/cfgmanapp.git"
@@ -66,11 +66,13 @@ spec:
         stage('Push container') {
       steps {
         container('docker') {
-			script {
-            docker.withRegistry("https://eu.gcr.io", "gcr:cfgmanapp") {
-            sh "docker push ${IMAGE_TAG}"
-			}
-        }
+          sh "cat /tmp/gcr/jenkins-gcr.json | docker login -u _json_key --password-stdin https://eu.gcr.io";
+          sh "docker push ${IMAGE_TAG}";
+			// script {
+      //       docker.withRegistry("https://eu.gcr.io", "gcr:${STORAGE_CREDS}") {
+      //       sh "docker push ${IMAGE_TAG}"
+			//      }
+      //   }
     }}}
         stage('Deploy') {
       steps {
