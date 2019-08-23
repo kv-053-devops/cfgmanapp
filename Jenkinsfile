@@ -59,7 +59,6 @@ spec:
         container('docker') {
         //  sh "cd $WORKSPACE/repo/${APP_NAME}";
          sh "docker build -t ${IMAGE_TAG} .";
-         sh "docker images";
         }
     } 
 } 
