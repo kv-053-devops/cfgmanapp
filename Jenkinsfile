@@ -3,9 +3,6 @@ pipeline {
   environment {
     PROJECT = "demo2-248908"
     APP_NAME = "cfgmanapp"
-    FE_SVC_NAME = "${APP_NAME}-backend"
-    CLUSTER = "demo2-gke-cluster"
-    CLUSTER_ZONE = "europe-west3-a"
     IMAGE_TAG = "eu.gcr.io/${PROJECT}/${APP_NAME}:${env.BUILD_NUMBER}"
     JENKINS_CRED = "${PROJECT}"
     BUILD_HOME='/var/lib/jenkins/workspace'
