@@ -26,9 +26,17 @@ spec:
   - name: dockersock
     hostPath:
       path: /var/run/docker.sock
+  - name: jenkins-gcr-sa-creds
+    secret:
+      secretName: jenkins-gcr-json
   containers:
   - name: git
     image: gcr.io/cloud-builders/git
+    command:
+    - cat
+    tty: true
+  - name: python
+    image: gcr.io/cloud-marketplace/google/python
     command:
     - cat
     tty: true
@@ -40,6 +48,9 @@ spec:
     volumeMounts:
     - name: dockersock
       mountPath: /var/run/docker.sock
+    - name: jenkins-gcr-sa-creds
+      mountPath: /tmp/gcr/
+      readOnly: true
   - name: kubectl
     image: gcr.io/cloud-builders/kubectl
     command:
