@@ -20,7 +20,7 @@ spec:
         image: eu.gcr.io/PROJECTID/cfgmanapp:CONTAINERTAG
         ports:
         - containerPort: 5004
-        args: ['35.195.87.59']
+        args: ['35.233.12.166']
       restartPolicy: Always
 ---
 apiVersion: v1
