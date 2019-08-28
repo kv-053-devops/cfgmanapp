@@ -1,7 +1,6 @@
 pipeline {
 
   environment {
-    PROJECT = "demo2-248908"
     APP_NAME = "cfgmanapp"
     IMAGE_TAG = "eu.gcr.io/${PROJECT}/${APP_NAME}:${GIT_COMMIT}"
     JENKINS_CRED = "${PROJECT}"
@@ -51,11 +50,23 @@ spec:
     - name: jenkins-gcr-sa-creds
       mountPath: /tmp/gcr/
       readOnly: true
+    env:
+    - name: PROJECT
+      valueFrom:
+        configMapKeyRef:
+          name: jenkins-vars
+          key: gcloud-project
   - name: kubectl
     image: gcr.io/cloud-builders/kubectl
     command:
     - cat
     tty: true
+    env:
+    - name: PROJECT
+      valueFrom:
+        configMapKeyRef:
+          name: jenkins-vars
+          key: gcloud-project
 """
 }
   }
@@ -69,7 +80,7 @@ spec:
       steps {
         container('docker') {
         //  sh "cd $WORKSPACE/repo/${APP_NAME}";
-         sh "docker build -t ${IMAGE_TAG} .";
+         sh '''docker build -t eu.gcr.io/${PROJECT}/${APP_NAME}:${GIT_COMMIT} .''';
         }
     } 
 } 
@@ -77,7 +88,7 @@ spec:
       steps {
         container('docker') {
           sh "cat /tmp/gcr/jenkins-gcr.json | docker login -u _json_key --password-stdin https://eu.gcr.io";
-          sh "docker push ${IMAGE_TAG}";
+          sh '''docker push eu.gcr.io/${PROJECT}/${APP_NAME}:${GIT_COMMIT}''';
 			// script {
       //       docker.withRegistry("https://eu.gcr.io", "gcr:${STORAGE_CREDS}") {
       //       sh "docker push ${IMAGE_TAG}"
@@ -87,8 +98,7 @@ spec:
         stage('Deploy') {
       steps {
         container('kubectl') {
-	 sh """sed -i "s/CONTAINERTAG/${GIT_COMMIT}/g" deployment_dev """
-         sh """sed -i "s/PROJECTID/${PROJECT}/g" deployment_dev """
+          sh '''sed -i -e "s/CONTAINERTAG/${GIT_COMMIT}/g" -e "s/PROJECTID/${PROJECT}/g" deployment_dev ''';
          sh "kubectl apply -f deployment_dev"
        //  sh "kubectl create deployment ConfigManager --image=${IMAGE_TAG}";
         // sh "kubectl get pods";
