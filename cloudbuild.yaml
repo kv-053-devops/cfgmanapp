@@ -4,7 +4,8 @@ steps:
   id: Test
   entrypoint: /bin/sh
   args: 
-  - '-c' 
+  - '-c'
+  - 'apt-get install libpq-dev'
   - 'pip install -r ./requirements.txt'
 #  - 'python unit_test.py -v'
 
