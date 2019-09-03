@@ -16,7 +16,7 @@ steps:
   args:
   - 'build' 
   - '-t' 
-  - 'gcr.io/$PROJECT_ID/cfgman' 
+  - 'gcr.io/$PROJECT_ID/cfgman:$SHORT_SHA' 
   - '.'
 #  timeout: 500s
 #images:
