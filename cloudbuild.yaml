@@ -1,15 +1,24 @@
 steps:
 #run unit test and download requirements
-- name:
-  args: [ '-c', 'pip install -r ./requirements.txt && python unit_test.py -v']
+- name: 'python:3.6-alpine'
+  args: 
+  - '-c' 
+  - 'pip install -r ./requirements.txt'
+  - 'python unit_test.py -v'
 
 #build
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/confMan-image', '.' ]
+  args:
+  - 'build' 
+  - '-t' 
+  - 'gcr.io/$PROJECT_ID/confMan-image' 
+  - '.'
   timeout: 500s
 images:
-- 'gcr.io/$PROJECT_ID/confMan-image'
+- 'gcr.io/$PROJECT_ID/cfgman'
 
-#push
+#push to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'eu.gcr.io/$PROJECT_ID/configManager:$SHORT_SHA']
+  args:
+  - 'push' 
+  - 'eu.gcr.io/$PROJECT_ID/configManager:$SHORT_SHA'
