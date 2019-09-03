@@ -8,6 +8,7 @@ steps:
   - 'apk update'
   - 'apk add libpq-dev'
   - 'pip install -r ./requirements.txt'
+  timeout: 500s
 #  - 'python unit_test.py -v'
 
 #build
