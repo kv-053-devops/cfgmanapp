@@ -66,8 +66,8 @@ def up_data():
 # Get All
 @app.route('/start', methods=['GET'])
 def get_all():
-    all = Data.query.all()
-    result = products_schema.dump(all)
+    d = Data.query.all()
+    result = d[0].symbol
     return jsonify(result.data)
 
 
