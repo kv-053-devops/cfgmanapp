@@ -1,6 +1,8 @@
 steps:
 #run unit test and download requirements
 - name: 'python:3.6-alpine'
+  id: 'test'
+  entrypoint: '/bin/sh'
   args: 
   - '-c' 
   - 'pip install -r ./requirements.txt'
