@@ -6,7 +6,7 @@ steps:
   args: 
   - '-c' 
   - 'pip install -r ./requirements.txt'
-  - 'python unit_test.py -v'
+#  - 'python unit_test.py -v'
 
 #build
 - name: 'gcr.io/cloud-builders/docker'
