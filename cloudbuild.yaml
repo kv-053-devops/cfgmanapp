@@ -13,9 +13,9 @@ steps:
   - '-t' 
   - 'gcr.io/$PROJECT_ID/cfgman' 
   - '.'
-  timeout: 500s
-images:
-- 'gcr.io/$PROJECT_ID/cfgman'
+#  timeout: 500s
+#images:
+#- 'gcr.io/$PROJECT_ID/cfgman'
 
 #push to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
