@@ -10,17 +10,20 @@ import json
 # Init app
 app = Flask(__name__)
 
-if len(sys.argv) != 1 :
-    host_db = sys.argv[1]
-else:
-    host_db = 'localhost'
+user = os.environ.get('USER', 'postgres')
+pw = os.environ.get('PW', 'postgres')
+db = os.environ.get('DB', 'name')
+host_db = os.environ.get('HOST', 'localhost')
+port = os.environ.get('PORT', '5432')
+   
 POSTGRES = {
-    'user': 'postgres',
-    'pw': 'postgres',
-    'db': 'name',
+    'user': user,
+    'pw': pw,
+    'db': db,
     'host': host_db,
-    'port': '5432',
+    'port': port,
 }
+
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
