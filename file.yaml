@@ -17,7 +17,7 @@ spec:
       hostname: cfgmanapp
       containers:
       - name: cfgmanapp
-        image: eu.gcr.io/$PROJECT_ID/cfgmanapp:CONTAINERTAG
+        image: eu.gcr.io/$PROJECT_ID/cfgmanapp:$SHORT_SHA
         ports:
         - containerPort: 5004
         args: ['35.189.226.173']
