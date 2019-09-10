@@ -33,4 +33,4 @@ steps:
 artifacts:
   objects:
     location: 'gs://gcpssproject-248014-spinnaker-conf/$PROJECT_ID/'
-    paths: ['file.yaml']
+    paths: ['kub_dev.yaml', 'kub_prod.yaml']
