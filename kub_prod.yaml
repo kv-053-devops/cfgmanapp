@@ -29,7 +29,7 @@ metadata:
   name: cfgmanapp
   labels:
     app: cfgmanapp
-  namespace: dev
+  namespace: prod
 spec:
   ports:
   - port: 5004
