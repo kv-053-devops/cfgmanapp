@@ -20,7 +20,7 @@ spec:
         image: eu.gcr.io/$PROJECT_ID/cfgmanapp:$SHORT_SHA
         ports:
         - containerPort: 5004
-        args: ['35.189.226.173']
+        args: [$db_ip]
       restartPolicy: Always
 ---
 apiVersion: v1
