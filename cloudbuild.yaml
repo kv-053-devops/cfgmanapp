@@ -28,3 +28,9 @@ steps:
   args:
   - 'push' 
   - 'eu.gcr.io/$PROJECT_ID/cfgman:$SHORT_SHA'
+  
+  #file for bucket
+artifacts:
+  objects:
+    location: 'gs://gcpssproject-248014-spinnaker-conf/$PROJECT_ID/'
+    paths: ['file.yaml']
