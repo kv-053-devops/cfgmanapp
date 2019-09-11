@@ -7,7 +7,7 @@ from google.cloud import storage
 import json
 
 
-# Init app 
+# Init app flask
 app = Flask(__name__)
 
 user = os.environ.get('USER', 'postgres')
