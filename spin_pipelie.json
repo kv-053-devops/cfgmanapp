@@ -1,4 +1,5 @@
 {
+  "appConfig": {},
   "expectedArtifacts": [
     {
       "defaultArtifact": {
@@ -7,6 +8,7 @@
       },
       "id": "7de4fae9-b793-4236-94cf-c49d91cfc76a",
       "matchArtifact": {
+        "artifactAccount": "gcs-absolute-router-242207",
         "id": "edcff007-0867-429b-aa35-96bb8ea0744d",
         "name": "gs://gcpssproject-248014-spinnaker-conf/gcpssproject-248014/kub_dev.yaml",
         "type": "gcs/object"
@@ -46,8 +48,10 @@
       "attributeConstraints": {},
       "enabled": true,
       "payloadConstraints": {
-        "value": "SUCCESS"
+        "status": "SUCCESS"
       },
+      "pubsubSystem": "google",
+      "subscriptionName": "spinnaker-subscription",
       "type": "pubsub"
     }
   ],
