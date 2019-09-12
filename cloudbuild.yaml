@@ -29,8 +29,13 @@ steps:
   - 'push' 
   - 'eu.gcr.io/$PROJECT_ID/cfgman:$SHORT_SHA'
   
-  #file for bucket
-artifacts:
-  objects:
-    location: 'gs://$PROJECT_ID-spinnaker-conf/confman/'
-    paths: ['kub_dev.yaml', 'kub_prod.yaml']
+- name: 'comarada/envsubst'
+  id: Prepare dev enviroment file
+  args: ['kub_dev.yaml']
+  env:
+    - 'PROJECT_ID=$PROJECT_ID'
+    - 'SHORT_SHA=$SHORT_SHA'
+
+- name: 'gcr.io/cloud-builders/gsutil'
+  id: Push dev K8 manifest to GS bucket
+  args: ['cp','ready_kub_dev.yaml','gs://$PROJECT_ID-spinnaker-conf/logicapp/ready_kub_dev.yaml']
