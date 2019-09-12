@@ -10,7 +10,7 @@ import json
 # Init app flask
 app = Flask(__name__)
 
-user = os.environ.get('USER', 'postgres')
+user = os.environ.get('USER_DB', 'postgres')
 pw = os.environ.get('PW', 'postgres')
 db = os.environ.get('DB', 'name')
 host_db = os.environ.get('HOST', 'localhost')
