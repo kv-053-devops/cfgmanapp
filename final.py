@@ -13,8 +13,8 @@ app = Flask(__name__)
 user = os.environ.get('USER_DB', 'postgres')
 pw = os.environ.get('PW', 'postgres')
 db = os.environ.get('DB', 'name')
-host_db = os.environ.get('HOST', 'localhost')
-port = os.environ.get('PORT', '5432')
+host_db = os.environ.get('HOST_DB', 'localhost')
+port = os.environ.get('PORT_DB', '5432')
    
 POSTGRES = {
     'user': user,
