@@ -20,7 +20,27 @@ spec:
         image: eu.gcr.io/$PROJECT_ID/cfgmanapp:$SHORT_SHA
         ports:
         - containerPort: 5004
-        args: [$db_ip]
+        env:
+        - name: USER_DB
+          valueFrom:
+            secretKeyRef:
+              name: credentials-db
+              key: db_user_name
+        - name: DB
+          valueFrom:
+            secretKeyRef:
+              name: credentials-db
+              key: db_name
+        - name: PW
+          valueFrom:
+            secretKeyRef:
+              name: credentials-db
+              key: db_user_pass
+        - name: HOST_DB
+          valueFrom:
+            secretKeyRef:
+              name: credentials-db
+              key: db_address
       restartPolicy: Always
 ---
 apiVersion: v1
