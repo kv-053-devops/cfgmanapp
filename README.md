@@ -1,3 +1,3 @@
 # cfgmanapp
-cfgmanapp app
+cfgmanappapp
 
