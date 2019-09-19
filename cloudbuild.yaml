@@ -5,8 +5,8 @@ steps:
   entrypoint: /bin/sh
   args: 
   - '-c'
- # - 'apk update'
-  #- 'apk add libpq-dev'
+  - 'apk update'
+  - 'apk add libpq-dev'
   - 'python unit_test.py -v'
   timeout: 500s
 
