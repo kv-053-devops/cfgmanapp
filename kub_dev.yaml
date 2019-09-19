@@ -41,6 +41,14 @@ spec:
             secretKeyRef:
               name: credentials-db
               key: db_address
+      - name: postgres
+        image: TODO
+        imagePullPolicy: "IfNotPresent"
+        ports:
+        - containerPort: 5432
+          name: postgres
+        
+        
       restartPolicy: Always
 ---
 apiVersion: v1
