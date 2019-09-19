@@ -16,7 +16,6 @@ steps:
   - '-t' 
   - 'eu.gcr.io/$PROJECT_ID/cfgman:$SHORT_SHA' 
   - '.'
-images: ['eu.gcr.io/$PROJECT_ID/cfgman:$SHORT_SHA']
   
 - name: 'comarada/envsubst'
   id: Prepare dev enviroment file
@@ -24,6 +23,8 @@ images: ['eu.gcr.io/$PROJECT_ID/cfgman:$SHORT_SHA']
   env:
     - 'PROJECT_ID=$PROJECT_ID'
     - 'SHORT_SHA=$SHORT_SHA'
+
+images: ['eu.gcr.io/$PROJECT_ID/cfgman:$SHORT_SHA']
 
 - name: 'gcr.io/cloud-builders/gsutil'
   id: Push dev K8 manifest to GS bucket
