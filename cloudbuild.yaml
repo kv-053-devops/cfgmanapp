@@ -7,7 +7,6 @@ steps:
   - 'apk update'
   - 'apk add libpq-dev'
   - 'python unit_test.py -v'
-  timeout: 500s
 
 #build
 - name: 'gcr.io/cloud-builders/docker'
