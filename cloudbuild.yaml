@@ -30,11 +30,7 @@ steps:
   args:
   - 'push' 
   - 'eu.gcr.io/$PROJECT_ID/cfgman:$SHORT_SHA'
-artifacts:
-  objects:
-    location: 'gs://$PROJECT_ID-spinnaker-conf/confman/'
-    paths: ['kub_dev.yaml', 'kub_prod.yaml']
 
-#- name: 'gcr.io/cloud-builders/gsutil'
- # id: Push dev K8 manifest to GS bucket
-  #args: ['cp','ready_kub_dev.yaml','gs://$PROJECT_ID-spinnaker-conf/confman/ready_kub_dev.yaml']
+- name: 'gcr.io/cloud-builders/gsutil'
+  id: Push dev K8 manifest to GS bucket
+  args: ['cp','ready_kub_dev.yaml','gs://$PROJECT_ID-spinnaker-conf/confman/ready_kub_dev.yaml']
