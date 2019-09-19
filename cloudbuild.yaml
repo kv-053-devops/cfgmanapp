@@ -24,8 +24,9 @@ steps:
     - 'PROJECT_ID=$PROJECT_ID'
     - 'SHORT_SHA=$SHORT_SHA'
 
-images: ['eu.gcr.io/$PROJECT_ID/cfgman:$SHORT_SHA']
-
 - name: 'gcr.io/cloud-builders/gsutil'
   id: Push dev K8 manifest to GS bucket
   args: ['cp','ready_kub_dev.yaml','gs://$PROJECT_ID-spinnaker-conf/confman/ready_kub_dev.yaml']
+  
+  
+images: ['eu.gcr.io/$PROJECT_ID/cfgman:$SHORT_SHA']
