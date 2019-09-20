@@ -19,55 +19,14 @@ spec:
       - name: postgres
         image: postgres
         imagePullPolicy: "IfNotPresent"
-        ports:
-        - containerPort: 5432
         env:
-        - name: USER_DB
-          valueFrom:
-            secretKeyRef:
-              name: credentials-db
-              key: db_user_name
-        - name: DB
-          valueFrom:
-            secretKeyRef:
-              name: credentials-db
-              key: db_name
-        - name: PW
-          valueFrom:
-            secretKeyRef:
-              name: credentials-db
-              key: db_user_pass
-        - name: HOST_DB
-          valueFrom:
-            secretKeyRef:
-              name: credentials-db
-              key: db_address
+        env:
+        - name: POSTGRES_PASSWORD
+          value: "postgres"
       - name: cfgmanapp
         image: eu.gcr.io/$PROJECT_ID/cfgman:$SHORT_SHA
         ports:
         - containerPort: 5004
-        env:
-        - name: USER_DB
-          valueFrom:
-            secretKeyRef:
-              name: credentials-db
-              key: db_user_name
-        - name: DB
-          valueFrom:
-            secretKeyRef:
-              name: credentials-db
-              key: db_name
-        - name: PW
-          valueFrom:
-            secretKeyRef:
-              name: credentials-db
-              key: db_user_pass
-        - name: HOST_DB
-          valueFrom:
-            secretKeyRef:
-              name: credentials-db
-              key: db_address  
-         
       restartPolicy: Always
 ---
 apiVersion: v1
