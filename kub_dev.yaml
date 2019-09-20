@@ -44,6 +44,7 @@ spec:
       - name: postgres
         image: TODO
         imagePullPolicy: "IfNotPresent"
+        restart: always
         ports:
         - containerPort: 5432
           name: postgres
