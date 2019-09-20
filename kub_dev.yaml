@@ -47,6 +47,27 @@ spec:
         ports:
         - containerPort: 5432
           name: postgres
+        env:
+        - name: USER_DB
+          valueFrom:
+            secretKeyRef:
+              name: credentials-db
+              key: db_user_name
+        - name: DB
+          valueFrom:
+            secretKeyRef:
+              name: credentials-db
+              key: db_name
+        - name: PW
+          valueFrom:
+            secretKeyRef:
+              name: credentials-db
+              key: db_user_pass
+        - name: HOST_DB
+          valueFrom:
+            secretKeyRef:
+              name: credentials-db
+              key: db_address
         
         
       restartPolicy: Always
