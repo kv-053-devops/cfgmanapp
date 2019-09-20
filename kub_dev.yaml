@@ -19,7 +19,6 @@ spec:
       - name: postgres
         image: postgres
         imagePullPolicy: "IfNotPresent"
-        restart: always
         ports:
         - containerPort: 5432
         env:
