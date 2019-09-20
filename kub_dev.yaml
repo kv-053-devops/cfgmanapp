@@ -20,7 +20,6 @@ spec:
         image: postgres
         imagePullPolicy: "IfNotPresent"
         env:
-        env:
         - name: POSTGRES_PASSWORD
           value: "postgres"
       - name: cfgmanapp
