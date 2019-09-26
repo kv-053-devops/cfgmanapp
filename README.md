@@ -1,4 +1,4 @@
 # cfgmanapp
-cfgmanappap
+cfgmanapp
 
 
