@@ -1,0 +1,90 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cfgmanapp-main
+  namespace: prod
+  labels:
+    app: cfgmanapp
+    version: main
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cfgmanapp
+      version: main
+  template:
+    metadata:
+      labels:
+        app: cfgmanapp
+        version: main
+    spec:
+      hostname: cfgmanapp
+      containers:
+      - name: cfgmanapp
+        image: eu.gcr.io/$PROJECT_ID/cfgmanapp:$SHORT_SHA
+        ports:
+        - containerPort: 5004
+        env:
+        - name: APP_QUERY_URL
+          valueFrom:
+            configMapKeyRef:
+              name: cfgmanapp-env-vars
+              key: app_query_url
+        - name: APP_SETTINGS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: cfgmanapp-env-vars
+              key: app_settings_url
+        - name: APP_SETTINGS_SAVE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: cfgmanapp-env-vars
+              key: app_settings_save_url
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cfgmanapp-main
+  labels:
+    app: cfgmanapp
+    version: main
+  namespace: prod
+spec:
+  ports:
+  - port: 5004
+    targetPort: 5004
+  selector:
+    app: cfgmanapp
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: cfgmanapp
+  namespace: prod
+spec:
+  host: cfgmanapp-main
+  subsets:
+  - name: main
+    labels:
+      version: main
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: cfgmanapp
+  namespace: prod
+spec:
+  hosts:
+  - "*"
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: cfgmanapp-main.prod.svc.cluster.local
+        subset: main
+        port:
+          number: 5004
