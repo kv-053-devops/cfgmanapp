@@ -34,9 +34,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 db = SQLAlchemy(app)
 # Init ma
 ma = Marshmallow(app)
-key = ["ozJJnnNAuL6d7f80upQobuq04lRjB0Mc4DqseClvEgONmPz6bxTSN3GkG9qP","dFwKiqcvZnE7Y6lDy6rBxnwkXZFo4UrP6iyKCWJ5ENOzT0zy3uVhboFAIXcN",
-           "fV511EA1BuSOvQz9dvwOaggCC8jVtHUSyileRc58artpzNsU5OjLSIoIMkMT", "bQgHpBb0Ro9qJdc3uI92AkhbgKQmkheQwFc2HogQ5XgkCThGCCacRyLPGAZv",
-           "Qrryp9yY35JyX8Fn93QQKiONuEJnPnAWHuH956GZsBCLhsbcOotRCgP2fSAN", "Ok83lRmuDMCP3LhCtUOdMaA5K6eRF3BAdCYWrg4kEva8Lh0GkdwEAOcQqenJ"]
+#key = ["ozJJnnNAuL6d7f80upQobuq04lRjB0Mc4DqseClvEgONmPz6bxTSN3GkG9qP","dFwKiqcvZnE7Y6lDy6rBxnwkXZFo4UrP6iyKCWJ5ENOzT0zy3uVhboFAIXcN",
+    #       "fV511EA1BuSOvQz9dvwOaggCC8jVtHUSyileRc58artpzNsU5OjLSIoIMkMT", "bQgHpBb0Ro9qJdc3uI92AkhbgKQmkheQwFc2HogQ5XgkCThGCCacRyLPGAZv",
+     #      "Qrryp9yY35JyX8Fn93QQKiONuEJnPnAWHuH956GZsBCLhsbcOotRCgP2fSAN", "Ok83lRmuDMCP3LhCtUOdMaA5K6eRF3BAdCYWrg4kEva8Lh0GkdwEAOcQqenJ"]
 
 class Data(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -90,7 +90,7 @@ FILE_INTRADAY = 'intraday.json'
 #Making endpoints of API for access from other microservices
 @app.route('/conf/query', methods=['GET'])
 def request_take():
-    token = random.randint(0, 5);
+    #token = random.randint(0, 5);
     if request.method == 'GET':
         query_type = request.args.get('query_type')
         if query_type == "realtime":
