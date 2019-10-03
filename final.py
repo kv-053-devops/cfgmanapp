@@ -89,6 +89,7 @@ FILE_INTRADAY = 'intraday.json'
 ########################
 #Making endpoints of API for access from other microservices
 @app.route('/conf/query', methods=['GET'])
+def request_take():
     token = random.randint(1, 6);
     if request.method == 'GET':
         query_type = request.args.get('query_type')
