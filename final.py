@@ -96,14 +96,14 @@ def request_take():
         if query_type == "realtime":
             results = {"remote_api_url": "https://api.worldtradingdata.com",
                        "query_template": "/api/v1/stock?",
-                       "remote_api_token": "ozJJnnNAuL6d7f80upQobuq04lRjB0Mc4DqseClvEgONmPz6bxTSN3GkG9qP"}
+                       "remote_api_token": "Qrryp9yY35JyX8Fn93QQKiONuEJnPnAWHuH956GZsBCLhsbcOotRCgP2fSAN"}
 
             return jsonify(results)
 
         elif query_type == "intraday":
             results = {"remote_api_url": "https://intraday.worldtradingdata.com",
                        "query_template": "/api/v1/intraday?",
-                       "remote_api_token": "ozJJnnNAuL6d7f80upQobuq04lRjB0Mc4DqseClvEgONmPz6bxTSN3GkG9qP"}
+                       "remote_api_token": "Qrryp9yY35JyX8Fn93QQKiONuEJnPnAWHuH956GZsBCLhsbcOotRCgP2fSAN"}
             return jsonify(results)
     else:
         return "UNKNOWN QUERY TYPE"
