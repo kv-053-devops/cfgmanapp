@@ -5,6 +5,7 @@ from flask_marshmallow import Marshmallow
 import os
 from google.cloud import storage
 import json
+import random
 
 
 # Init app flask
@@ -40,6 +41,9 @@ class Data(db.Model):
     range = db.Column(db.Integer)
     name = db.Column(db.String(255))
     symbol = db.Column(db.String(100))
+    key = ["ozJJnnNAuL6d7f80upQobuq04lRjB0Mc4DqseClvEgONmPz6bxTSN3GkG9qP","dFwKiqcvZnE7Y6lDy6rBxnwkXZFo4UrP6iyKCWJ5ENOzT0zy3uVhboFAIXcN",
+           "fV511EA1BuSOvQz9dvwOaggCC8jVtHUSyileRc58artpzNsU5OjLSIoIMkMT", "bQgHpBb0Ro9qJdc3uI92AkhbgKQmkheQwFc2HogQ5XgkCThGCCacRyLPGAZv",
+           "Qrryp9yY35JyX8Fn93QQKiONuEJnPnAWHuH956GZsBCLhsbcOotRCgP2fSAN", "Ok83lRmuDMCP3LhCtUOdMaA5K6eRF3BAdCYWrg4kEva8Lh0GkdwEAOcQqenJ"]
 
 
 # Data Schema
@@ -85,20 +89,20 @@ FILE_INTRADAY = 'intraday.json'
 ########################
 #Making endpoints of API for access from other microservices
 @app.route('/conf/query', methods=['GET'])
-def request_take():
+    token = random.randint(1, 6);
     if request.method == 'GET':
         query_type = request.args.get('query_type')
         if query_type == "realtime":
-            results = {"remote_api_url" : "https://api.worldtradingdata.com",
-                        "query_template" : "/api/v1/stock?",
-                        "remote_api_token" : "Ok83lRmuDMCP3LhCtUOdMaA5K6eRF3BAdCYWrg4kEva8Lh0GkdwEAOcQqenJ"}
+            results = {"remote_api_url": "https://api.worldtradingdata.com",
+                       "query_template": "/api/v1/stock?",
+                       "remote_api_token": token}
 
             return jsonify(results)
 
         elif query_type == "intraday":
-            results = {"remote_api_url" : "https://intraday.worldtradingdata.com",
-                        "query_template" : "/api/v1/intraday?",
-                        "remote_api_token" : "Ok83lRmuDMCP3LhCtUOdMaA5K6eRF3BAdCYWrg4kEva8Lh0GkdwEAOcQqenJ"}
+            results = {"remote_api_url": "https://intraday.worldtradingdata.com",
+                       "query_template": "/api/v1/intraday?",
+                       "remote_api_token": token}
             return jsonify(results)
     else:
         return "UNKNOWN QUERY TYPE"
