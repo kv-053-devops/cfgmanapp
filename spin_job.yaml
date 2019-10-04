@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    app: script-job
+  name: test-a
+  namespace: dev
+spec:
+  backoffLimit: 2
+  template:
+    spec:
+      containers:
+        - command:
+            - bash
+            - /opt/script/script.sh
+            - http://cfgmanapp.dev.svc.cluster.local:5004/save 
+          image: tutum/curl
+          name: script
+          volumeMounts:
+            - mountPath: /opt/script
+              name: script-configmap-dev
+              readOnly: false
+      restartPolicy: Never
+      volumes:
+        - configMap:
+            name: script-configmap-dev
+          name: script-configmap-dev
