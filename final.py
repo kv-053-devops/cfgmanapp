@@ -53,6 +53,10 @@ class DataSchema(ma.Schema):
 
 products_schema = DataSchema(many=True)
 
+@app.route("/")
+def hello():
+    return "The root uri '/' doesn't configured. Use '/logic/query_data' instead."
+
 # Create up
 @app.route('/save', methods=['PUT'])
 def up_data():
