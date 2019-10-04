@@ -80,7 +80,7 @@ metadata:
   namespace: prod
 spec:
   hosts:
-  - "*"
+  - cfgmanapp-main.prod.svc.cluster.local
   http:
   - match:
     - uri:
