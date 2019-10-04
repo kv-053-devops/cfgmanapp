@@ -56,7 +56,7 @@ steps:
 - name: 'gcr.io/cloud-builders/gsutil'
   args: ['cp','ready_kub_prod.yaml','gs://$PROJECT_ID-spinnaker-conf/confman/ready_kub_prod.yaml']  
   
- artifacts:
+artifacts:
   objects:
     location: 'gs://$PROJECT_ID-spinnaker-conf/confman/'
     paths: ['spin_job.yaml']
