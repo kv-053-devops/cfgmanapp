@@ -13,7 +13,8 @@ spec:
         - command:
             - bash
             - /opt/script/script.sh
-            - http://cfgmanapp.dev.svc.cluster.local:5004/save -XPUT -d '{"symbol": "FB"}' -v -H "Content-Type: application/json"
+            - http://cfgmanapp.dev.svc.cluster.local:5004/save
+        args: -XPUT -d '{"symbol": "FB"}' -v -H "Content-Type: application/json"
           image: tutum/curl
           name: script
           volumeMounts:
