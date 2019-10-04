@@ -16,7 +16,7 @@ steps:
   - 'eu.gcr.io/$PROJECT_ID/cfgman:$SHORT_SHA' 
   - '.'
  
- - name: 'comarada/envsubst'
+- name: 'comarada/envsubst'
   id: Prepare yaml for main
   args: ['kub_prod_main.yaml']
   env:
