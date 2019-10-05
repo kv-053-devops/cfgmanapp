@@ -92,13 +92,13 @@ spec:
         prefix: /
     route:
     - destination:
-        host: cfgmanapp-main.prod.svc.cluster.local
+        host: cfgmanapp.prod.svc.cluster.local
         subset: canary
         port:
           number: 5004
       weight: 10
     - destination:
-        host: cfgmanapp-main.prod.svc.cluster.local
+        host: cfgmanapp.prod.svc.cluster.local
         subset: main
         port:
           number: 5004
