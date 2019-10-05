@@ -54,7 +54,6 @@ metadata:
   name: cfgmanapp
   labels:
     app: cfgmanapp
-    version: main
   namespace: prod
 spec:
   ports:
@@ -69,7 +68,7 @@ metadata:
   name: cfgmanapp
   namespace: prod
 spec:
-  host: cfgmanapp-main
+  host: cfgmanapp
   subsets:
   - name: main
     labels:
