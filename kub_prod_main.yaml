@@ -26,21 +26,12 @@ spec:
         ports:
         - containerPort: 5004
         env:
-        - name: APP_QUERY_URL
-          valueFrom:
-            configMapKeyRef:
-              name: cfgmanapp-env-vars
-              key: app_query_url
-        - name: APP_SETTINGS_URL
-          valueFrom:
-            configMapKeyRef:
-              name: cfgmanapp-env-vars
-              key: app_settings_url
-        - name: APP_SETTINGS_SAVE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: cfgmanapp-env-vars
-              key: app_settings_save_url
+        - name: POSTGRES_PASSWORD
+          value: "postgres"
+      - name: cfgmanapp
+        image: eu.gcr.io/$PROJECT_ID/cfgman:$SHORT_SHA
+        ports:
+        - containerPort: 5004
       restartPolicy: Always
 ---
 apiVersion: v1
