@@ -22,16 +22,12 @@ spec:
       hostname: cfgmanapp
       containers:
       - name: cfgmanapp
-        image: eu.gcr.io/$PROJECT_ID/cfgmanapp:$SHORT_SHA
+        image: eu.gcr.io/$PROJECT_ID/cfgman:$SHORT_SHA
         ports:
         - containerPort: 5004
         env:
         - name: POSTGRES_PASSWORD
           value: "postgres"
-      - name: cfgmanapp
-        image: eu.gcr.io/$PROJECT_ID/cfgman:$SHORT_SHA
-        ports:
-        - containerPort: 5004
       restartPolicy: Always
 ---
 apiVersion: v1
