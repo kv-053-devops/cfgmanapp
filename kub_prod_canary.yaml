@@ -54,7 +54,6 @@ metadata:
   name: cfgmanapp
   labels:
     app: cfgmanapp
-    version: canary
   namespace: prod
 spec:
   ports:
